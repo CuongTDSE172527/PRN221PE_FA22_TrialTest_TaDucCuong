@@ -1,0 +1,102 @@
+﻿<Window x:Class="CandidateManagement_WPF_TDC.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CandidateManagement_WPF_TDC"
+        mc:Ignorable="d"
+        Title="Login" Height="600" Width="500"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F2F5"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E1E3E6"/>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E1E3E6"/>
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="15" Background="White" Margin="30" Padding="40">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" Direction="-90" 
+                              RenderingBias="Quality" ShadowDepth="3" Color="#DDDDDD"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="Welcome Back" 
+                           FontSize="32" FontWeight="Bold" 
+                           HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <TextBlock Text="Sign in to your account" 
+                           FontSize="18" Foreground="#666666"
+                           HorizontalAlignment="Center" Margin="0,0,0,30"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Margin="0,20">
+                <TextBlock Text="Email" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <TextBox Name="EmailTextBox" Margin="0,0,0,25"/>
+
+                <TextBlock Text="Password" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <PasswordBox Name="PasswordBox" Margin="0,0,0,30"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="LoginButton" 
+                            Content="Sign In"
+                            Style="{StaticResource ButtonStyle}"
+                            Background="#1877F2" 
+                            Foreground="White"
+                            Click="LoginButton_Click"/>
+
+                    <Button Name="CancelButton" 
+                            Content="Cancel"
+                            Style="{StaticResource ButtonStyle}"
+                            Background="#E4E6EB" 
+                            Foreground="#333333"
+                            Click="CancelButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Grid.Row="2" Name="ErrorMessage" 
+                       Foreground="#DC3545" TextAlignment="Center"
+                       FontSize="14" TextWrapping="Wrap"/>
+        </Grid>
+    </Border>
+</Window>
