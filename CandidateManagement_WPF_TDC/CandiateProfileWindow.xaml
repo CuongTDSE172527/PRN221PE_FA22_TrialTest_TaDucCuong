@@ -103,6 +103,10 @@
                             Content="Delete"
                             Background="#F44336"
                             Click="btn_delete_Click"/>
+                    <Button x:Name="btn_logout" 
+                            Content="Log Out"
+                            Background="#757575"
+                            Click="btn_logout_Click"/>
                 </StackPanel>
             </StackPanel>
         </Border>

@@ -26,11 +26,11 @@ namespace CandidateManagement_WPF_TDC
             InitializeComponent();
             EmailTextBox.TextChanged += OnEmailTextChanged;
             hRAccountService = new HRAccountService();
+            ProgramComboBox.SelectedIndex = 0; // Set default selection
         }
 
         private void OnEmailTextChanged(object sender, TextChangedEventArgs e)
         {
-            // Real-time email validation
             if (!string.IsNullOrEmpty(EmailTextBox.Text) && !emailRegex.IsMatch(EmailTextBox.Text))
             {
                 ShowError("Please enter a valid email address");
@@ -48,7 +48,9 @@ namespace CandidateManagement_WPF_TDC
             try
             {
                 // Validate inputs
-                if (string.IsNullOrWhiteSpace(EmailTextBox.Text) || string.IsNullOrWhiteSpace(PasswordBox.Password))
+                if (string.IsNullOrWhiteSpace(EmailTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(PasswordBox.Password) ||
+                    ProgramComboBox.SelectedItem == null)
                 {
                     ShowError("Please fill in all fields");
                     return;
@@ -65,35 +67,42 @@ namespace CandidateManagement_WPF_TDC
 
                 try
                 {
-                    // Modified authentication to return both success status and role
                     var (isAuthenticated, userRole) = await hRAccountService.AuthenticateAsync(EmailTextBox.Text, PasswordBox.Password);
 
                     if (isAuthenticated)
                     {
-                        // Navigate based on user role
-                        switch (userRole)
+                        // Get selected program
+                        var selectedProgram = ((ComboBoxItem)ProgramComboBox.SelectedItem).Content.ToString();
+
+                        // Check if user has permission for the selected program
+                        bool hasPermission = CheckProgramPermission(userRole, selectedProgram);
+
+                        if (!hasPermission)
                         {
-                            case ROLE_ADMIN:
+                            ShowError("You don't have permission to access this program");
+                            return;
+                        }
+
+                        // Open the selected program
+                        switch (selectedProgram)
+                        {
+                            case "Candidate Profile Management":
                                 var candidateProfileWindow = new CandidateProfileWindow();
                                 candidateProfileWindow.Show();
                                 break;
 
-                            case ROLE_MANAGER:
-                            case ROLE_STAFF:
+                            case "Job Posting Management":
                                 var jobPostingWindow = new JobPostingWindow(userRole);
                                 jobPostingWindow.Show();
-
                                 break;
 
                             default:
-                                ShowError("Invalid user role");
-                                isProcessing = false;
-                                SetLoginButtonState(false);
+                                ShowError("Invalid program selection");
                                 return;
                         }
 
                         MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                        this.Close(); // Close the login window
+                        this.Close();
                     }
                     else
                     {
@@ -116,6 +125,20 @@ namespace CandidateManagement_WPF_TDC
             }
         }
 
+        private bool CheckProgramPermission(int userRole, string selectedProgram)
+        {
+            switch (selectedProgram)
+            {
+                case "Candidate Profile Management":
+                    return userRole == ROLE_ADMIN;
+
+                case "Job Posting Management":
+                    return userRole == ROLE_MANAGER || userRole == ROLE_STAFF;
+
+                default:
+                    return false;
+            }
+        }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -135,7 +158,6 @@ namespace CandidateManagement_WPF_TDC
         {
             ErrorMessage.Text = message;
 
-            // Subtle shake animation for error feedback
             var shakeAnimation = new DoubleAnimation
             {
                 From = -5,

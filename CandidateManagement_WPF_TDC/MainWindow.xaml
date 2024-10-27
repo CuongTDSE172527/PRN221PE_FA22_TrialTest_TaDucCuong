@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CandidateManagement_WPF_TDC"
         mc:Ignorable="d"
-        Title="Login" Height="600" Width="500"
+        Title="Login" Height="700" Width="500"
         WindowStartupLocation="CenterScreen"
         Background="#F0F2F5"
         ResizeMode="NoResize">
@@ -19,6 +19,13 @@
             <Setter Property="BorderBrush" Value="#E1E3E6"/>
         </Style>
         <Style TargetType="PasswordBox">
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E1E3E6"/>
+        </Style>
+        <Style TargetType="ComboBox">
             <Setter Property="Padding" Value="15,8"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="FontSize" Value="16"/>
@@ -75,7 +82,13 @@
                 <TextBox Name="EmailTextBox" Margin="0,0,0,25"/>
 
                 <TextBlock Text="Password" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                <PasswordBox Name="PasswordBox" Margin="0,0,0,30"/>
+                <PasswordBox Name="PasswordBox" Margin="0,0,0,25"/>
+
+                <TextBlock Text="Select Program" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                <ComboBox Name="ProgramComboBox" Margin="0,0,0,30">
+                    <ComboBoxItem Content="Candidate Profile Management"/>
+                    <ComboBoxItem Content="Job Posting Management"/>
+                </ComboBox>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Name="LoginButton" 

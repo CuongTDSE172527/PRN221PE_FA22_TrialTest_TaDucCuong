@@ -230,5 +230,24 @@ namespace CandidateManagement_WPF_TDC
             // Deselect any selected item in the ListView
             ListViewCandidate.SelectedItem = null;
         }
+
+        private void btn_logout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                "Are you sure you want to log out?",
+                "Confirm Logout",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Create and show the main window
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+
+                // Close the current window
+                this.Close();
+            }
+        }
     }
 }
